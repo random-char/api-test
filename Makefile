@@ -2,7 +2,7 @@ env:
 	cp .env.example .env
 
 composer:
-	docker run --rm --interactive --tty --volume $$PWD:/app composer update
+	docker run --rm --interactive --tty --volume $$PWD:/app composer install
 
 init:
 	docker compose run --rm php-fpm php yii init

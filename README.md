@@ -1,11 +1,34 @@
 Api test
 --------
 
+Requirements
+============
+
+ * [Docker compose](https://docs.docker.com/compose/)
+
 Local setup
 ===========
 
- * Run ``make env`` or copy ``.env.example`` into ``.env``. Update ``.env`` with desired variables.
- * 
+ * Run ``make env`` or copy ``.env.example`` into ``.env``. Update ``.env`` with desired variables;
+ * Run ``make composer`` to install dependencies;
+ * Run ``make init`` and specify desired options to initialize the application;
+ * Run ``make up`` to start containers.
+
+
+To test if app is up and running make a curl request:
+```sh
+curl --header "Content-Type: application/json" \
+  --request POST \
+  --data '{"numbers": ["1", 2, 3.0, 3,1, 4]}' \
+  http://localhost:8000/api/sum-even
+```
+
+Expected output is:
+```json
+{
+    "sum": 6
+}
+```
 
 DIRECTORY STRUCTURE
 -------------------
