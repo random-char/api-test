@@ -1,0 +1,52 @@
+services:
+  nginx:
+      image: nginx:latest
+      volumes:
+        - ./:/var/www
+        - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      ports:
+        - 8000:80
+      environment:
+        - NGINX_HOST=localhost
+      networks:
+        - local
+      depends_on:
+        php-fpm:
+          condition: service_started
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+        XDEBUG_ENABLED: ${XDEBUG_ENABLED:-true}
+        XDEBUG_MODE: develop,coverage,debug,profile
+        XDEBUG_HOST: ${XDEBUG_HOST:-host.docker.internal}
+        XDEBUG_IDE_KEY: ${XDEBUG_IDE_KEY:-DOCKER}
+        XDEBUG_LOG: /dev/stdout
+        XDEBUG_LOG_LEVEL: 0
+    env_file:
+      - .env
+    user: "${UID:-1000}:${GID:-1000}"
+    volumes:
+      - .:/var/www
+    networks:
+      - local
+    depends_on:
+      mysql:
+        condition: service_started
+
+  mysql:
+    image: mysql:9.4
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+
+networks:
+  local:
