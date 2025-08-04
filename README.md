@@ -11,7 +11,7 @@ Local setup
 
  * Run ``make env`` or copy ``.env.example`` into ``.env``. Update ``.env`` with desired variables;
  * Run ``make composer`` to install dependencies;
- * Run ``make init`` and specify desired options to initialize the application;
+ * Run ``make init-yii`` and specify desired options to initialize the application;
  * Run ``make up`` to start containers.
 
 
@@ -29,6 +29,11 @@ Expected output is:
     "sum": 6
 }
 ```
+
+Testing
+-------
+
+Run ``make test`` to start test suit.
 
 DIRECTORY STRUCTURE
 -------------------

@@ -24,6 +24,6 @@ final readonly class SumEvenCommandHandler
             0,
         );
 
-        return new Number($sum);
+        return new Number((int) $sum);
     }
 }
